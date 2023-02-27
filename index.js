@@ -66,8 +66,11 @@ Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyon
 
 function takimSkoru(/*Kodunuzu buraya yazınız*/){
     /*Kodunuzu buraya yazınız*/
+    const randomScore = Math.floor(Math.random() * 16) + 10;
+    return randomScore;
 }
 
+console.log(takimSkoru());
 
 
 
@@ -86,11 +89,30 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
+function macSonucu(/*Kodunuzu buraya yazınız*/takimSkoru, quarterCount){
   /*Kodunuzu buraya yazınız*/
+  let homeTeam = 0;
+  let awayTeam = 0;
+  function takimSkoru(){
+    const randomScore = Math.floor(Math.random() * 16) + 10;
+    return randomScore;
+  }
+  for (let i = 0; i < quarterCount; i++){
+    homeTeam += takimSkoru();
+  }
+  for (let k = 0; k < quarterCount; k++){
+    awayTeam += takimSkoru();
+  }
+
+  const newObject = {
+    EvSahibi : homeTeam,
+    KonukTakim : awayTeam
+  }
+  
+  return newObject;
 }
 
-
+console.log(macSonucu(takimSkoru, 4));
 
 
 
@@ -109,12 +131,23 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(teamScore) {
+  function takimSkoru(){
+    const randomScore = Math.floor(Math.random() * 16) + 10;
+    return randomScore;
+  }
+  let homeTeam = takimSkoru();
+  let awayTeam = takimSkoru();
 
+  const newObject = {
+    EvSahibi : homeTeam,
+    KonukTakim : awayTeam
+  }
+
+  return newObject;
 }
 
-
+console.log(periyotSkoru(takimSkoru));
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
   1. İlk parametre olarak Görev 4'te oluşturduğumuz 'periyotSkoru'nu bir değişken olarak almalı
@@ -146,9 +179,80 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
+function skorTabelasi(/*Kodunuzu buraya yazınız*/periodScore, teamScore, quarterCount) {
   /*Kodunuzu buraya yazınız*/
-}
+  function periyotSkoru() {
+    function takimSkoru(){
+      const randomScore = Math.floor(Math.random() * 16) + 10;
+      return randomScore;
+    }
+    
+    let quarterHomeArray = [];
+    let quarterAwayArray = [];
+
+    for (let k = 0; k < quarterCount; k++) {
+      let randomScore = takimSkoru();
+      quarterHomeArray[k] = randomScore;
+    }
+
+    for (let j = 0; j < quarterCount; j++) {
+      let randomScore = takimSkoru();
+      quarterAwayArray[j] = randomScore;
+    }
+
+    let periodObj = {
+      quarterHome : quarterHomeArray,
+      quarterAway : quarterAwayArray 
+    };
+    
+    return periodObj;
+  }
+  let periodObj = periyotSkoru();
+  let quarterHomeScoreArray = periodObj.quarterHome;
+  let quarterAwayScoreArray = periodObj.quarterAway;
+  let homeTotalScore = 0;
+  let awayTotalScore = 0;
+
+  for (let p = 0; p < quarterHomeScoreArray.length; p++){
+    homeTotalScore += quarterHomeScoreArray[p];
+  }
+
+  for (let r = 0; r < quarterAwayScoreArray.length; r++){
+    awayTotalScore += quarterAwayScoreArray[r];
+  }
+
+  let notBerabereArray = [];
+  let berabereArray = [];
+  let uzatmaObj = {};
+
+
+  if (homeTotalScore != awayTotalScore) {
+    for (let i = 0; i < quarterCount; i++) {
+    notBerabereArray[i] = `${i+1}. Periyot: Ev Sahibi ${quarterHomeScoreArray[i]} - Konuk Takim ${quarterAwayScoreArray[i]}`
+    }
+    notBerabereArray [quarterCount] = `Maç Sonucu: Ev Sahibi ${homeTotalScore} - Konuk Takım ${awayTotalScore}`;
+    return notBerabereArray;
+
+  } else {
+
+    for (let i = 0; i < quarterCount; i++) {
+      berabereArray[i] = `${i+1}. Periyot: Ev Sahibi ${quarterHomeScoreArray[i]} - Konuk Takim ${quarterAwayScoreArray[i]}`
+      }
+    let h = 1;
+    while (homeTotalScore = awayTotalScore) {
+      let homeUzatmaScore = Math.floor(Math.random() * 16) + 10;
+      let awayUzatmaScore = Math.floor(Math.random() * 16) + 10;
+      homeTotalScore += homeUzatmaScore;
+      awayTotalScore += awayUzatmaScore;
+      berabereArray[quarterCount + h] = `${h}. Uzatma: Ev Sahibi ${homeUzatmaScore} - Konuk Takım ${awayUzatmaScore}`;
+      h++;
+      } 
+    berabereArray [quarterCount] = `Maç Sonucu: Ev Sahibi ${homeTotalScore} - Konuk Takım ${awayTotalScore}`;
+    return berabereArray;
+    }
+  }
+  
+  console.log(skorTabelasi(periyotSkoru,takimSkoru,4));
 
 
 
